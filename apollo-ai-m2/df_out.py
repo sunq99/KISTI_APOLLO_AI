@@ -15,8 +15,8 @@ load_dotenv()
 # =========================
 # Milvus 설정
 # =========================
-MILVUS_HOST = os.getenv("MILVUS_HOST", "203.250.238.26")
-MILVUS_PORT = os.getenv("MILVUS_PORT", "19530")
+MILVUS_HOST = os.getenv("MILVUS_HOST")
+MILVUS_PORT = os.getenv("MILVUS_PORT")
 COLLECTION_NAME = os.getenv("MILVUS_COLLECTION", "ntb_20260102")
 
 EMBED_MODEL_NAME = os.getenv("EMBED_MODEL", "jhgan/ko-sroberta-multitask")
