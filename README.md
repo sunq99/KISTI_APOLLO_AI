@@ -13,7 +13,7 @@
 - **AI / 자연어 처리**: Hugging Face Transformers, Sentence-Transformers, LLM (Gemma, LLaMA via Ollama)  
 - **벡터 데이터베이스**: Milvus (HNSW, IVF), Chroma  
 - **백엔드**: FastAPI, Uvicorn  
-- **인프라**: Linux, Docker, NVIDIA GPU (CUDA)  
+- **인프라**: Linux, Docker, NVIDIA GPU (CUDA), Jenkins
 - **도구**: GitHub, Postman, Gitea  
 
 ### 시스템 아키텍처 (System Architecture)
