@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+
+    environment {
+        PROJECT_DIR = "${params.DEPLOY_DIR ?: '/data/home/dev23_apollo/deploy/prod/apollo-ai-m1'}"
+        BUILD_MODE = "${params.BUILD_MODE ?: env.BUILD_MODE ?: 'production'}"
+        BRANCH_NAME = "${params.BRANCH_NAME ?: 'main'}"
+        LIB_PATH = "${params.LIB_PATH ?: '/home/dev23_apollo/anaconda3/bin'}"
+        SSH_SERVER_NAME = "${params.SSH_SERVER_NAME ?: 'GPUServer'}"
+        JAVA_HOME = "${params.JAVA_HOME ?: ''}"
+        SERVICE_PORT = "${params.SERVICE_PORT ?: '8001'}"
+    }
+
+    stages {
+        stage('Deploy into GPU Server') {
+            steps {
+                sshPublisher(
+                    continueOnError: false,
+                    failOnError: true,
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: "${env.SSH_SERVER_NAME}",
+                            verbose: true,
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: '',
+                                    removePrefix: '',
+                                    execCommand: """
+                                        export PATH="${env.LIB_PATH}:$PATH"
+                                        export JAVA_HOME="${env.JAVA_HOME}"
+
+                                        echo 'move to project dir'
+                                        cd "${env.PROJECT_DIR}"
+
+                                        echo 'stop process'
+                                        . stop.sh ${env.BUILD_MODE}
+
+                                        echo 'git pull'
+                                        git pull origin ${env.BRANCH_NAME}
+
+                                        echo 'poetry install'
+                                        poetry install --no-root
+
+                                        echo 'start process'
+                                        . start.sh ${env.BUILD_MODE} ${env.SERVICE_PORT}
+                                    """
+                                )
+                            ]
+                        )
+                    ]
+                )
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline succeeded! Running with build mode: ${BUILD_MODE}"
+        }
+        failure {
+            echo "Pipeline failed! Was attempting to run with build mode: ${BUILD_MODE}"
+        }
+    }
+}
