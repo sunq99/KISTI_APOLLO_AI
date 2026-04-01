@@ -1,6 +1,19 @@
 ## Apollo Model6 Endpoints Server
 
-- Apollo Back-End 에서 호출하는 Endpoints Server
-- /itemsearch API는 글로벌 유망 아이템 탐색으로 다음과 같이 처리함 
-  - Apollo Model6 Chroma Server로 호출
-  - 기업명 또는 설명으로 유사도 랭크에 따라 Response 데이터와 DB WIKI를 병합하여 결과 전송
+- Apollo Back-End에서 호출하는 글로벌 유망 아이템 탐색용 Endpoints 서버
+- FastAPI 기반 REST API 서버로, 내부적으로 apollo-ai-m6-chroma 서버를 호출
+
+### 모듈 연계 구조
+
+```
+Apollo Back-End
+    └─▶ apollo-ai-m6 (Endpoints Server)
+             └─▶ apollo-ai-m6-chroma (ChromaDB 유사도 검색)
+```
+
+### API
+
+#### `POST /itemsearch` — 글로벌 유망 아이템 탐색
+
+1. apollo-ai-m6-chroma 서버로 기업명 또는 설명 기반 유사도 검색 요청
+2. 검색 결과와 DB의 WIKI 정보를 병합하여 최종 결과 반환

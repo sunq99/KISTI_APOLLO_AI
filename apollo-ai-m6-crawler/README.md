@@ -18,7 +18,7 @@
 2. MariaDB 대소문자 구분 옵션 설정
     - /etc/mysql/mariadb.cnf
       <pre><code>[mysqld]
-      lower_case_table_names = 1</code></pre> 
+      lower_case_table_names = 1</code></pre>
 3. ./dbscript/ddl.sql 실행
 4. ./config/path.py의 dump파일 폴더 설정
 5. ./config/data_test.conf파일 수정
@@ -26,7 +26,7 @@
     - /config/M6 시드.xlsx
     - /config/wiki_rule.xlsx
 7. Git clone
-   <pre>git clone https://github.com/solideos/apollo-ai-m6-crawler.git</pre>
+   <pre>git clone https://github.com/sunq99/KISTI_APOLLO_AI.git</pre>
 8. PyCharm Interpreter 설정
     - Python : 3.12.10
     - Poetry : 2.2.2
